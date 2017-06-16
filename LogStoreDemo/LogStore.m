@@ -8,7 +8,8 @@
 @interface ShakeableWindow : UIWindow
 @end
 
-@interface LogViewController : UIViewController
+@interface LogViewController : UITableViewController
+@property (nonatomic, strong) NSArray *logLines;
 @end
 
 @implementation LogStore
@@ -50,18 +51,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UITextView *textView = [UITextView new];
-    textView.translatesAutoresizingMaskIntoConstraints = false;
-    textView.text = [LogStore log];
+//    UITextView *textView = [UITextView new];
+//    textView.translatesAutoresizingMaskIntoConstraints = false;
+//    textView.text = [LogStore log];
+//
+//    [self.view addSubview:textView];
+//
+//    [NSLayoutConstraint activateConstraints:@[
+//                                              [textView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+//                                              [textView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+//                                              [textView.topAnchor constraintEqualToAnchor:self.topLayoutGuide.bottomAnchor],
+//                                              [textView.bottomAnchor constraintEqualToAnchor:self.bottomLayoutGuide.topAnchor]
+//                                              ]];
     
-    [self.view addSubview:textView];
+    NSString *log = [LogStore log];
+    self.logLines = [log componentsSeparatedByString:@"\n"];
     
-    [NSLayoutConstraint activateConstraints:@[
-                                              [textView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-                                              [textView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-                                              [textView.topAnchor constraintEqualToAnchor:self.topLayoutGuide.bottomAnchor],
-                                              [textView.bottomAnchor constraintEqualToAnchor:self.bottomLayoutGuide.topAnchor]
-                                              ]];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 60;
+    
+    self.tableView.tableFooterView = [UIView new];
+    self.tableView.backgroundColor = [UIColor blackColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -73,6 +86,30 @@
 
 - (void)dismiss {
     [self dismissViewControllerAnimated:true completion:nil];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.logLines.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
+    NSString *line = self.logLines[indexPath.row];
+    if (line.length > 1) {
+        NSRange rangeOfBracket = [line rangeOfString:@"]"];
+        NSRange rangeOfPrefix = NSMakeRange(0, rangeOfBracket.location+1);
+//        cell.textLabel.text = [line stringByReplacingCharactersInRange:rangeOfPrefix withString:@""];
+        NSMutableAttributedString *attributedLine = [[NSMutableAttributedString alloc] initWithString:line attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Menlo" size:12]}];
+        [attributedLine addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:rangeOfPrefix];
+        cell.textLabel.attributedText = attributedLine;
+        cell.textLabel.numberOfLines = 0;
+        cell.textLabel.textColor = [UIColor whiteColor];
+        cell.textLabel.lineBreakMode = NSLineBreakByCharWrapping;
+    }
+    cell.backgroundColor = [UIColor blackColor];
+    
+    return cell;
 }
 
 @end

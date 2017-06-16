@@ -20,7 +20,7 @@
     
     [LogStore redirectLogToFile];
     
-    NSLog(@"%d, %s", __LINE__, __func__);
+    NSLog(@"Foo");
     
     return YES;
 }
