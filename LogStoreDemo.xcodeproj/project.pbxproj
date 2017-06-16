@@ -13,6 +13,9 @@
 		F241A8A61EF1C903007B3A63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F241A8A51EF1C903007B3A63 /* Assets.xcassets */; };
 		F241A8A91EF1C903007B3A63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F241A8A71EF1C903007B3A63 /* LaunchScreen.storyboard */; };
 		F241A8AC1EF1C903007B3A63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F241A8AB1EF1C903007B3A63 /* main.m */; };
+		F241A8B41EF1CBCC007B3A63 /* LogStore.m in Sources */ = {isa = PBXBuildFile; fileRef = F241A8B31EF1CBCC007B3A63 /* LogStore.m */; };
+		F241A8B71EF1DB0A007B3A63 /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F241A8B61EF1DB0A007B3A63 /* LogViewController.m */; };
+		F241A8BA1EF1DF85007B3A63 /* ShakeableWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F241A8B91EF1DF85007B3A63 /* ShakeableWindow.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,12 @@
 		F241A8A81EF1C903007B3A63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F241A8AA1EF1C903007B3A63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F241A8AB1EF1C903007B3A63 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F241A8B21EF1CBCC007B3A63 /* LogStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogStore.h; sourceTree = "<group>"; };
+		F241A8B31EF1CBCC007B3A63 /* LogStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogStore.m; sourceTree = "<group>"; };
+		F241A8B51EF1DB0A007B3A63 /* LogViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogViewController.h; sourceTree = "<group>"; };
+		F241A8B61EF1DB0A007B3A63 /* LogViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogViewController.m; sourceTree = "<group>"; };
+		F241A8B81EF1DF85007B3A63 /* ShakeableWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShakeableWindow.h; sourceTree = "<group>"; };
+		F241A8B91EF1DF85007B3A63 /* ShakeableWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShakeableWindow.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,8 +69,14 @@
 			children = (
 				F241A89C1EF1C903007B3A63 /* AppDelegate.h */,
 				F241A89D1EF1C903007B3A63 /* AppDelegate.m */,
+				F241A8B81EF1DF85007B3A63 /* ShakeableWindow.h */,
+				F241A8B91EF1DF85007B3A63 /* ShakeableWindow.m */,
 				F241A89F1EF1C903007B3A63 /* ViewController.h */,
 				F241A8A01EF1C903007B3A63 /* ViewController.m */,
+				F241A8B21EF1CBCC007B3A63 /* LogStore.h */,
+				F241A8B31EF1CBCC007B3A63 /* LogStore.m */,
+				F241A8B51EF1DB0A007B3A63 /* LogViewController.h */,
+				F241A8B61EF1DB0A007B3A63 /* LogViewController.m */,
 				F241A8A21EF1C903007B3A63 /* Main.storyboard */,
 				F241A8A51EF1C903007B3A63 /* Assets.xcassets */,
 				F241A8A71EF1C903007B3A63 /* LaunchScreen.storyboard */,
@@ -141,6 +156,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F241A8BA1EF1DF85007B3A63 /* ShakeableWindow.m in Sources */,
+				F241A8B41EF1CBCC007B3A63 /* LogStore.m in Sources */,
+				F241A8B71EF1DB0A007B3A63 /* LogViewController.m in Sources */,
 				F241A8A11EF1C903007B3A63 /* ViewController.m in Sources */,
 				F241A8AC1EF1C903007B3A63 /* main.m in Sources */,
 				F241A89E1EF1C903007B3A63 /* AppDelegate.m in Sources */,
@@ -275,6 +293,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = Q6PD97MRX4;
 				INFOPLIST_FILE = LogStoreDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.swiftandpainless.LogStoreDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -288,6 +307,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = Q6PD97MRX4;
 				INFOPLIST_FILE = LogStoreDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.swiftandpainless.LogStoreDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
