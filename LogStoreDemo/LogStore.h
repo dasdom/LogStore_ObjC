@@ -5,8 +5,7 @@
 #import <UIKit/UIKit.h>
 
 @interface LogStore : NSObject
-//+ (instancetype)sharedInstance;
-//- (void)logString:(NSString *)log;
++ (UIWindow *)shakeableWindow;
 + (void)redirectLogToFile;
 + (void)presentLogFromViewController:(UIViewController *)viewController;
 + (NSString *)log;

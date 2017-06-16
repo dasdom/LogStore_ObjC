@@ -5,13 +5,12 @@
 #import "AppDelegate.h"
 
 #import "LogStore.h"
-#import "ShakeableWindow.h"
 
 @implementation AppDelegate
 
 - (UIWindow *)window {
     if (!_window) {
-        _window = [[ShakeableWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        _window = [LogStore shakeableWindow];
     }
     
     return _window;
