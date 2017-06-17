@@ -6,7 +6,7 @@
 
 @interface LogStore : NSObject
 + (UIWindow *)shakeableWindow;
-+ (void)redirectLogToFile;
++ (FILE *)redirectLogToFile;
 + (void)presentLogFromViewController:(UIViewController *)viewController;
 + (NSString *)log;
 @end

@@ -17,11 +17,6 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    [LogStore redirectLogToFile];
-    
-    NSLog(@"Foo");
-    
     return YES;
 }
 
