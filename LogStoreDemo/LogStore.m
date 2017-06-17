@@ -179,6 +179,7 @@ static NSString *DDHRedirectionActiveKey = @"DDHRedirectionActiveKey";
     self.motionManager = [CMMotionManager new];
     [self.motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion * _Nullable motion, NSError * _Nullable error) {
         
+        // Inspiration from http://nshipster.com/cmdevicemotion/
         if (motion.userAcceleration.x < -5) {
             if ([weakSelf _shouldPresentLog]) {
                 [weakSelf _presentLog];
