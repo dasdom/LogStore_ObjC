@@ -27,8 +27,8 @@
 		F241A8A81EF1C903007B3A63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F241A8AA1EF1C903007B3A63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F241A8AB1EF1C903007B3A63 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		F241A8B21EF1CBCC007B3A63 /* LogStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogStore.h; sourceTree = "<group>"; };
-		F241A8B31EF1CBCC007B3A63 /* LogStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogStore.m; sourceTree = "<group>"; };
+		F241A8B21EF1CBCC007B3A63 /* LogStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LogStore.h; path = ../LogStore.h; sourceTree = "<group>"; };
+		F241A8B31EF1CBCC007B3A63 /* LogStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LogStore.m; path = ../LogStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -322,6 +322,7 @@
 				F241A8B11EF1C903007B3A63 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
