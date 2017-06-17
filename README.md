@@ -6,11 +6,23 @@ Redirect NSLog on the fly into a file and present the log in your app when you n
 
 **Activate redirection of NSLog**:
 
-![](https://github.com/dasdom/LogStore/blob/master/ActivateLog.gif)
+![](https://github.com/dasdom/LogStore/blob/master/screenshots/ActivateLog.gif)
 
 **Show log**:
 
-![](https://github.com/dasdom/LogStore/blob/master/ShowLog.gif)
+![](https://github.com/dasdom/LogStore/blob/master/screenshots/ShowLog.gif)
+
+**Deactivate redirection of NSLog and delete stored log**:
+
+![](https://github.com/dasdom/LogStore/blob/master/screenshots/DeactivateLog.gif)
+
+**Indicator at the top left that redirection into file is active**:
+
+![](https://github.com/dasdom/LogStore/blob/master/screenshots/RedirectIndicator.JPG)
+
+**Log**:
+
+![](https://github.com/dasdom/LogStore/blob/master/screenshots/Log.PNG)
 
 ## Installation:
 
