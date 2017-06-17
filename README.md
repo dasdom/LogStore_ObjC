@@ -12,6 +12,10 @@ Redirect NSLog on the fly into a file and present the log in your app when you n
 
 ![](https://github.com/dasdom/LogStore/blob/master/ShowLog.gif)
 
+**Deactivate redirection of NSLog and delete stored log**:
+
+
+
 ## Installation:
 
 - Put `LogStore.h` and `LogStore.m` into you project. 
