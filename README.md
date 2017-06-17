@@ -34,4 +34,5 @@ MIT
 ## Author
 
 Dominik Hauser
+
 [@swiftpainless](https://twitter.com/swiftpainless)
