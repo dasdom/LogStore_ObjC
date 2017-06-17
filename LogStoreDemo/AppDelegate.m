@@ -12,7 +12,6 @@
     if (!_window) {
         _window = [LogStore shakeableWindow];
     }
-    
     return _window;
 }
 
