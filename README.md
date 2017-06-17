@@ -26,7 +26,7 @@ Redirect NSLog on the fly into a file and present the log in your app when you n
 
 ## Installation:
 
-- Put `LogStore.h` and `LogStore.m` into you project. 
+- Put `LogStore.h` and `LogStore.m` into you project. It's tiny. Just 178 cloc.
 - Add the following to you AppDelegate:
 
 ```objc
@@ -37,7 +37,7 @@ Redirect NSLog on the fly into a file and present the log in your app when you n
     return _window;
 }
 ```
-- Remember to remove the code prior to submitting to review.
+- Remember to remove this code prior to submitting to review.
 
 ## Licence
 
