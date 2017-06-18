@@ -56,6 +56,8 @@ extension FileHandle : TextOutputStream {
 ```
 and use `print("foobar", to:&standardError)` instead of `print("foobar")`.
 
+Or you can just use `NSLog("foobar")` in Swift as well.
+
 ## Licence
 
 MIT
