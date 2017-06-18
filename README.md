@@ -39,6 +39,23 @@ Redirect NSLog on the fly into a file and present the log in your app when you n
 ```
 - Remember to remove this code prior to submitting to review.
 
+### Swift 
+
+Swift does not print to stderr by default. So to redirect `print()` in Swift to the same file, add this code:
+```swift
+import Foundation
+
+var standardError = FileHandle.standardError
+
+extension FileHandle : TextOutputStream {
+    public func write(_ string: String) {
+        guard let data = string.data(using: .utf8) else { return }
+        self.write(data)
+    }
+}
+```
+and use `print("foobar", to:&standardError)` instead of `print("foobar")`.
+
 ## Licence
 
 MIT
