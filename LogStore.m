@@ -53,9 +53,15 @@
 // ***********************************************************************
 // * LogViewController                                                   *
 // ***********************************************************************
-@interface LogViewController ()
+@interface LogViewController () <UISearchBarDelegate>
 @property (nonatomic, strong) NSArray<NSString *> *logLines;
+@property (nonatomic, strong) NSArray<NSString *> *shownLogLines;
 @property BOOL hideTimeInfo;
+@property (copy) NSString *searchString;
+@property UIStackView *searchStackView;
+@property UISearchBar *searchBar;
+@property NSInteger searchPosition;
+@property UIButton *nextButton;
 @end
 
 @implementation LogViewController
@@ -65,6 +71,7 @@
     
     let *log = [LogStore log];
     self.logLines = [log componentsSeparatedByString:@"\n"];
+    self.shownLogLines = [self.logLines copy];
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     
@@ -74,6 +81,8 @@
     self.tableView.tableFooterView = [UIView new];
     self.tableView.backgroundColor = [UIColor blackColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    self.tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -81,10 +90,28 @@
     
     let *dismissButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss)];
     let *toggleTimeInfoButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(toggleTimeInfo)];
-    self.navigationItem.rightBarButtonItems = @[dismissButton, toggleTimeInfoButton];
+    self.navigationItem.leftBarButtonItems = @[dismissButton, toggleTimeInfoButton];
     
-//    var *clearLogButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(clearLog)];
-//    self.navigationItem.leftBarButtonItem = clearLogButton;
+    //    var *clearLogButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(clearLog)];
+    //    self.navigationItem.leftBarButtonItem = clearLogButton;
+    
+    self.searchBar = [[UISearchBar alloc] init];
+    self.searchBar.delegate = self;
+    
+    self.nextButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.nextButton setTitle:@"Next" forState:UIControlStateNormal];
+    self.nextButton.contentEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10);
+    self.nextButton.backgroundColor = [UIColor whiteColor];
+    [self.nextButton addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.searchStackView = [[UIStackView alloc] initWithArrangedSubviews:@[self.searchBar, self.nextButton]];
+    //    stackView.axis = UILayoutConstraintAxisVertical;
+    self.searchStackView.spacing = 5;
+    self.searchStackView.frame = CGRectMake(0, 0, self.tableView.bounds.size.width, 40);
+    
+    [self.tableView addSubview:self.searchStackView];
+    
+    self.tableView.contentInset = UIEdgeInsetsMake(64+self.searchStackView.frame.size.height, 0, 0, 0);
 }
 
 - (void)dismiss {
@@ -104,15 +131,18 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.logLines.count;
+    return self.shownLogLines.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     var *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
-    var *line = self.logLines[indexPath.row];
+    var *line = self.shownLogLines[indexPath.row];
     if (line.length > 1) {
-        let rangeOfBracket = [line rangeOfString:@"]"];
+        var rangeOfBracket = [line rangeOfString:@"]"];
+        if (rangeOfBracket.location == NSNotFound) {
+            rangeOfBracket = NSMakeRange(0, 0);
+        }
         let rangeOfPrefix = NSMakeRange(0, rangeOfBracket.location+1);
         cell.textLabel.textColor = [UIColor whiteColor];
         if (self.hideTimeInfo) {
@@ -122,6 +152,13 @@
         } else {
             var *attributedLine = [[NSMutableAttributedString alloc] initWithString:line attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Menlo" size:10]}];
             [attributedLine addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:rangeOfPrefix];
+            if (self.searchString.length > 0) {
+                let rangeOfSearchText = [line rangeOfString:self.searchString options:NSCaseInsensitiveSearch];
+                if (rangeOfSearchText.location != NSNotFound) {
+                    [attributedLine addAttribute:NSForegroundColorAttributeName value:[UIColor cyanColor] range:rangeOfSearchText];
+                    [attributedLine addAttribute:NSBackgroundColorAttributeName value:[UIColor grayColor] range:rangeOfSearchText];
+                }
+            }
             cell.textLabel.attributedText = attributedLine;
         }
         cell.textLabel.numberOfLines = 0;
@@ -130,6 +167,62 @@
     cell.backgroundColor = [UIColor blackColor];
     
     return cell;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    CGRect floatingViewFrame = self.searchStackView.frame;
+    floatingViewFrame.origin.y = 64 + scrollView.contentOffset.y;
+    self.searchStackView.frame = floatingViewFrame;
+}
+
+#pragma mark - <UISearchBarDelegate>
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    //    if (searchText.length > 0) {
+    //        let array = [self.logLines filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self contains[c] %@", searchText]];
+    //        self.shownLogLines = array;
+    //    } else {
+    //        self.shownLogLines = [self.logLines copy];
+    //    }
+    //    [self.tableView reloadData];
+    
+    self.searchString = searchText;
+    self.nextButton.backgroundColor = [UIColor whiteColor];
+    
+    __block BOOL found = false;
+    [self.shownLogLines enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if ([obj.lowercaseString containsString:searchText.lowercaseString]) {
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:true];
+            self.searchPosition = idx;
+            [self.tableView reloadData];
+            *stop = true;
+            found = true;
+        }
+    }];
+    if (!found) {
+        self.nextButton.backgroundColor = [UIColor redColor];
+    }
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    self.searchPosition = 0;
+}
+
+- (void)next {
+    [self.searchBar resignFirstResponder];
+    
+    [self.shownLogLines enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if (idx > self.searchPosition) {
+            if ([obj.lowercaseString containsString:self.searchString.lowercaseString]) {
+                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:true];
+                self.searchPosition = idx;
+                *stop = true;
+            }
+        }
+    }];
 }
 
 @end
@@ -175,6 +268,12 @@ static NSString *DDHRedirectionActiveKey = @"DDHRedirectionActiveKey";
     self->_isShaking = false;
     self->_isActive = false;
     
+    self.logRedirectIndicatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 6, 20)];
+    self.logRedirectIndicatorView.backgroundColor = [UIColor redColor];
+    
+    BOOL activeRedirect = [[NSUserDefaults standardUserDefaults] boolForKey:DDHRedirectionActiveKey];
+    [self activateLogRedirect:activeRedirect];
+    
     __weak __auto_type weakSelf = self;
     self.motionManager = [CMMotionManager new];
     [self.motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion * _Nullable motion, NSError * _Nullable error) {
@@ -190,13 +289,8 @@ static NSString *DDHRedirectionActiveKey = @"DDHRedirectionActiveKey";
             [weakSelf activateLogRedirect:false];
         }
     }];
-    
-    self.logRedirectIndicatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 6, 20)];
-    self.logRedirectIndicatorView.backgroundColor = [UIColor redColor];
-    
-    BOOL activeRedirect = [[NSUserDefaults standardUserDefaults] boolForKey:DDHRedirectionActiveKey];
-    [self activateLogRedirect:activeRedirect];
 }
+
 
 - (void)activateLogRedirect:(BOOL)activate {
     if (activate) {
@@ -208,6 +302,7 @@ static NSString *DDHRedirectionActiveKey = @"DDHRedirectionActiveKey";
         [LogStore clearLog];
     }
     [[NSUserDefaults standardUserDefaults] setBool:activate forKey:DDHRedirectionActiveKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)didAddSubview:(UIView *)subview {
