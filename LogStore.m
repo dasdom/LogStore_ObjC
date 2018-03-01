@@ -178,13 +178,6 @@
 
 #pragma mark - <UISearchBarDelegate>
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    //    if (searchText.length > 0) {
-    //        let array = [self.logLines filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self contains[c] %@", searchText]];
-    //        self.shownLogLines = array;
-    //    } else {
-    //        self.shownLogLines = [self.logLines copy];
-    //    }
-    //    [self.tableView reloadData];
     
     self.searchString = searchText;
     self.nextButton.backgroundColor = [UIColor whiteColor];
@@ -330,33 +323,7 @@ static NSString *DDHRedirectionActiveKey = @"DDHRedirectionActiveKey";
     if (!self.logRedirectIndicatorView.superview) {
         return false;
     }
-//#if TARGET_IPHONE_SIMULATOR
-//    return true;
-//#else
-//    return _isShaking;
-//#endif
     return true;
 }
-
-//- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-//    if (motion == UIEventSubtypeMotionShake) {
-//        NSLog(@"event: %@", event);
-//        _isShaking = YES;
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-//            if ([self _shouldPresentLog]) {
-//                [self _presentLog];
-//            }
-//        });
-//    }
-//    [super motionBegan:motion withEvent:event];
-//}
-//
-//- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-//    if (motion == UIEventSubtypeMotionShake) {
-//        _isShaking = NO;
-//    }
-//    [super motionEnded:motion withEvent:event];
-//}
-
 
 @end
